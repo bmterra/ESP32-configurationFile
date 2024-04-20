@@ -4,7 +4,8 @@
 // Example of a custom configuration file using SPIFFS
 char *filename = "/config.cnf";
 
-bool readFile() {
+bool readFile()
+{
   if (SPIFFS.exists(filename))
   {
     File configFile = SPIFFS.open(filename, FILE_READ);
@@ -35,7 +36,8 @@ bool readFile() {
   return false;
 }
 
-bool writeFile() {
+bool writeFile()
+{
   File configFile = SPIFFS.open(filename, FILE_WRITE);
   if (!configFile)
   {
@@ -68,7 +70,7 @@ void setup()
 
   SPIFFS.begin(true); // Format on fail to mount
   // List all files in filesystem
-  Serial.println("Listing files in FS..");  
+  Serial.println("Listing files in FS..");
   File root = SPIFFS.open("/");
   File file = root.openNextFile();
   while (file)
@@ -78,7 +80,8 @@ void setup()
     file = root.openNextFile();
   }
   // Try to open configuration file
-  if (!readFile()) {
+  if (!readFile())
+  {
     // Create file if it does not exist
     writeFile();
   }
@@ -90,7 +93,7 @@ void loop()
 {
   // Check if the BOOT button is pressed (0 is the pin connected on many ESP32 boards)
   if (!digitalRead(0))
-  { 
+  {
     // Delete configuration
     Serial.println("Deleting configuration file...");
     if (SPIFFS.exists(filename))
@@ -102,4 +105,3 @@ void loop()
     esp_restart();
   }
 }
-
